@@ -1,0 +1,27 @@
+
+
+
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+
+generator dto {
+  provider = "prisma-generator-nestjs-dto"
+  output   = "../generated/dto" // 输出目录
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id        Int     @id(map: "PK_cace4a159ff9f2512dd42373760") @default(autoincrement())
+  firstName String  @db.VarChar
+  lastName  String  @db.VarChar
+  isActive  Boolean @default(true)
+  isMale    Boolean @default(true)
+}

@@ -394,7 +394,8 @@ Temporary Items
 
 =======
 # Local
-# .env
+.env
+generated/prisma/
 dist
 .webpack
 .serverless/**/*.zip
