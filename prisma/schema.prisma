@@ -1,16 +1,15 @@
-
-
-
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  // output   = "../generated/prisma"
 }
-
 
 generator dto {
   provider = "prisma-generator-nestjs-dto"
   output   = "../generated/dto" // 输出目录
+  outputToNestJsResourceStructure = "true"
+  generateFileTypes = "dto"
+  classValidation = "true"
+  prettier = "true"
 }
 
 datasource db {

@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { User } from './user.entity';
-import { UserDto } from 'generated/dto/user.dto';
+
+import { user, Prisma } from 'generated/prisma';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
-  async findMany(): Promise<User[] | null> {
+
+  // 获取所有用户
+  async findMany(): Promise<user[] | null> {
     return this.prisma.user.findMany();
   }
 
-  async createUser(data: UserDto) {
-    await this.prisma.user.create(data);
+  // 创建用户
+  async createUser(data: Prisma.userCreateInput) {
+    await this.prisma.user.create({ data });
   }
 }
