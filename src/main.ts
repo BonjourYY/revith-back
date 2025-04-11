@@ -15,6 +15,13 @@ async function bootstrap() {
         forbidNonWhitelisted: true, // 如果请求体包含未定义的字段，返回 400
       }),
     );
+
+    app.enableCors({
+      origin: '*', // 动态返回请求的 Origin，适合 Vercel
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      allowedHeaders: 'Content-Type,Authorization',
+    });
+
     await app.listen(configService.get<number>('port') || 3000);
     console.log(
       `Server is running on port ${configService.get<number>('port') || 3000}`,
