@@ -1,14 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule, { snapshot: true });
+    const configService = app.get(ConfigService);
     // app.useGlobalGuards(new AuthGuard(), new RolesGuard());
-    app.useGlobalPipes(new ValidationPipe());
-    await app.listen(process.env.PORT || 3000);
-    console.log(`Server is running on port ${process.env.PORT || 3000}`);
+    // 全局使用验证管道
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true, // 只允许 DTO 中定义的字段
+        forbidNonWhitelisted: true, // 如果请求体包含未定义的字段，返回 400
+      }),
+    );
+    await app.listen(configService.get<number>('port') || 3000);
+    console.log(
+      `Server is running on port ${configService.get<number>('port') || 3000}`,
+    );
   } catch (error) {
     console.error('Error during application startup:', error);
     process.exit(1);
