@@ -16,10 +16,12 @@ async function bootstrap() {
       }),
     );
 
+    // 启用 CORS 并指定允许的域名
     app.enableCors({
-      origin: '*', // 动态返回请求的 Origin，适合 Vercel
+      origin: ['https://revith.cn'],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-      allowedHeaders: 'Content-Type,Authorization',
+      allowedHeaders: 'Content-Type, Authorization',
+      credentials: true, // 如果需要支持 cookie 或认证
     });
 
     await app.listen(configService.get<number>('port') || 3000);
