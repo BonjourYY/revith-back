@@ -3,6 +3,9 @@ import { AppService } from './app.service';
 
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { SignatureModule } from './signature/signature.module';
+import { HttpModule } from './http/http.module';
+import { HttpConfigModule } from './http-config/http-config.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -13,6 +16,9 @@ import configuration from './config/configuration';
       skipProcessEnv: true,
     }),
     AuthModule,
+    SignatureModule,
+    HttpModule,
+    HttpConfigModule,
   ],
   providers: [AppService],
 })
