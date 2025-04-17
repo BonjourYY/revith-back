@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 
-@Controller('oauth2')
+@Controller('oauth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,

@@ -4,8 +4,9 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { SignatureModule } from './signature/signature.module';
-import { HttpModule } from './http/http.module';
-import { HttpConfigModule } from './http-config/http-config.module';
+
+import { Oauth2Module } from './oauth2/oauth2.module';
+import { HttpInterceptorModule } from './http-interceptor/http-interceptor.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -17,8 +18,8 @@ import configuration from './config/configuration';
     }),
     AuthModule,
     SignatureModule,
-    HttpModule,
-    HttpConfigModule,
+    Oauth2Module,
+    HttpInterceptorModule,
   ],
   providers: [AppService],
 })
