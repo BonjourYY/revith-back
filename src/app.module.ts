@@ -7,7 +7,11 @@ import { SignatureModule } from './signature/signature.module';
 
 import { Oauth2Module } from './oauth2/oauth2.module';
 import { HttpInterceptorModule } from './http-interceptor/http-interceptor.module';
+import { UserModule } from './module/user/user.module';
+import { TestModule } from './test/test.module';
 import configuration from './config/configuration';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -20,8 +24,14 @@ import configuration from './config/configuration';
     SignatureModule,
     Oauth2Module,
     HttpInterceptorModule,
+    UserModule,
+    TestModule,
+    CacheModule.register({ ttl: 5000, isGlobal: true }),
   ],
-  providers: [AppService],
+  providers: [
+    { provide: AppService, useClass: AppService },
+    { provide: APP_INTERCEPTOR, useClass: CacheInterceptor },
+  ],
 })
 export class AppModule implements NestModule {
   constructor(private configService: ConfigService) {
