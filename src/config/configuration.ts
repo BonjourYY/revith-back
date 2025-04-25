@@ -5,7 +5,7 @@ export default () => {
   };
 
   if (config.port < 5000) {
-    config.port = 8000;
+    config.port = 2000;
   }
 
   return config;

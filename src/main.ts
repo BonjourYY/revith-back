@@ -9,12 +9,12 @@ async function bootstrap() {
     const configService = app.get(ConfigService);
     // app.useGlobalGuards(new AuthGuard(), new RolesGuard());
     // 全局使用验证管道
-    // app.useGlobalPipes(
-    //   new ValidationPipe({
-    //     whitelist: true, // 只允许 DTO 中定义的字段
-    //     forbidNonWhitelisted: true, // 如果请求体包含未定义的字段，返回 400
-    //   }),
-    // );
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true, // 只允许 DTO 中定义的字段
+        forbidNonWhitelisted: true, // 如果请求体包含未定义的字段，返回 400
+      }),
+    );
 
     // 启用 CORS 并指定允许的域名
     app.enableCors({

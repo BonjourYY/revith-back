@@ -1,20 +1,26 @@
-import { Module, NestModule } from '@nestjs/common';
-import { AppService } from './app.service';
+import { ClassSerializerInterceptor, Module, NestModule } from '@nestjs/common';
 
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
-import { SignatureModule } from './signature/signature.module';
+import { AuthModule } from './module/auth/auth.module';
+import { SignatureModule } from './utils/signature/signature.module';
 
-import { Oauth2Module } from './oauth2/oauth2.module';
-import { HttpInterceptorModule } from './http-interceptor/http-interceptor.module';
+import { Oauth2Module } from './module/oauth2/oauth2.module';
+import { HttpInterceptorModule } from './common/interceptors/http-interceptor/http-interceptor.module';
 import { UserModule } from './module/user/user.module';
-import { TestModule } from './test/test.module';
 import configuration from './config/configuration';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { providePrismaClientExceptionFilter } from 'nestjs-prisma';
+import { RolesGuard } from './common/guards/roles.guard';
+import { PrismaModule } from './module/prisma/prisma.module';
+import { AuthGuard } from './common/guards/auth.guards';
+import { DevtoolsModule } from '@nestjs/devtools-integration';
 
 @Module({
   imports: [
+    DevtoolsModule.register({
+      http: process.env.NODE_ENV !== 'production',
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
@@ -25,12 +31,15 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     Oauth2Module,
     HttpInterceptorModule,
     UserModule,
-    TestModule,
+    PrismaModule,
     CacheModule.register({ ttl: 5000, isGlobal: true }),
   ],
   providers: [
-    { provide: AppService, useClass: AppService },
     { provide: APP_INTERCEPTOR, useClass: CacheInterceptor },
+    { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
+    { provide: APP_GUARD, useClass: AuthGuard },
+    { provide: APP_GUARD, useClass: RolesGuard },
+    providePrismaClientExceptionFilter(),
   ],
 })
 export class AppModule implements NestModule {

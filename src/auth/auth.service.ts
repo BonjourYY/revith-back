@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
-import { SignatureValidatorService } from 'src/signature/signature.service';
+import { SignatureValidatorService } from 'src/utils/signature/signature.service';
 
 @Injectable()
 export class AuthService {

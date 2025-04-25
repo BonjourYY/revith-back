@@ -7,12 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// 用户角色
+enum Role {
+  user
+  admin
+}
+
 model User {
   id        Int      @id @default(autoincrement())
-  username  String
+  telephone String   @unique
   password  String
-  male      String
-  isActive  Boolean  @default(false)
+  roles     Role[]   @default([user])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// enum BaseType {
+//   PATRIOTISM_EDUCATION // 爱国主义教育基地
+//   SCIENCE_POPULARIZATION // 科普教育基地
+//   LABOR_PRACTICE // 劳动教育实践基地
+//   BEAUTIFUL_COUNTRYSIDE // 美丽乡村
+// }
+
+model Base {
+  id            Int       @id @default(autoincrement())
+  name          String    @unique // 基地名
+  contactPerson String // 联系人
+  contactPhone  String // 联系电话
+  type          Int[] // 基地类型
+  area          String // 基地地址
+  address       String // 参观形式
+  isChargeable  String // 是否收费
+  openDate      DateTime? // 开放日期
+  openDuration  Int? // 开放时长
+  description   String? // 简介
+  images        String[] // 基地图片
+  createdAt     DateTime  @default(now()) // 建议添加 createdAt
+  updatedAt     DateTime  @updatedAt // 建议添加 updatedAt
 }
