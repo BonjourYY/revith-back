@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserEntity } from './entities/user.entity';
-import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UserService {
@@ -13,21 +11,23 @@ export class UserService {
     return this.prisma.user.create({ data: createUserDto });
   }
 
-  async findAll(): Promise<UserEntity[]> {
-    const users = await this.prisma.user.findMany();
-    // 将 Prisma 返回的普通对象数组转换为 UserEntity 实例数组
-    return plainToInstance(UserEntity, users);
+  findAll() {
+    return this.prisma.user.findMany();
+  }
+
+  findOneByTel(telephone: string) {
+    return this.prisma.user.findUnique({ where: { telephone } });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.prisma.user.findUnique({ where: { id } });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return this.prisma.user.update({ data: updateUserDto, where: { id } });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.prisma.user.delete({ where: { id } });
   }
 }

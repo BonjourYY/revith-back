@@ -1,13 +1,14 @@
-import { User } from '@prisma/client';
+import { $Enums, User } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 
 export class UserEntity implements User {
+  roles: $Enums.Role[];
   id: number;
-  username: string;
+  telephone: string;
   @Exclude()
   password: string;
-  male: string;
-  isActive: boolean;
+  @Exclude()
   createdAt: Date;
+  @Exclude()
   updatedAt: Date;
 }
