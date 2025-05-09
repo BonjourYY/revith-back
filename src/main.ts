@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
@@ -12,7 +12,7 @@ async function bootstrap() {
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true, // 只允许 DTO 中定义的字段
-        forbidNonWhitelisted: true, // 如果请求体包含未定义的字段，返回 400
+        // forbidNonWhitelisted: true, // 如果请求体包含未定义的字段，返回 400
       }),
     );
 
@@ -24,9 +24,15 @@ async function bootstrap() {
       credentials: true, // 如果需要支持 cookie 或认证
     });
 
-    await app.listen(configService.get<number>('port') || 3000);
+    // 启用版本控制
+    app.enableVersioning({
+      type: VersioningType.URI,
+      defaultVersion: '1',
+    });
+
+    await app.listen(configService.get<number>('database.port', 3000));
     console.log(
-      `Server is running on port ${configService.get<number>('port') || 3000}`,
+      `Server is running on port ${configService.get<number>('database.port', 3000)}`,
     );
   } catch (error) {
     console.error('Error during application startup:', error);

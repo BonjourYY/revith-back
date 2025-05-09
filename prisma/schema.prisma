@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -22,13 +23,6 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-// enum BaseType {
-//   PATRIOTISM_EDUCATION // 爱国主义教育基地
-//   SCIENCE_POPULARIZATION // 科普教育基地
-//   LABOR_PRACTICE // 劳动教育实践基地
-//   BEAUTIFUL_COUNTRYSIDE // 美丽乡村
-// }
-
 model Base {
   id            Int       @id @default(autoincrement())
   name          String    @unique // 基地名
@@ -41,7 +35,7 @@ model Base {
   openDate      DateTime? // 开放日期
   openDuration  Int? // 开放时长
   description   String? // 简介
-  images        String[] // 基地图片
-  createdAt     DateTime  @default(now()) // 建议添加 createdAt
-  updatedAt     DateTime  @updatedAt // 建议添加 updatedAt
+  images        Json[] // 基地图片
+  createdAt     DateTime  @default(now()) //  创建时间
+  updatedAt     DateTime  @updatedAt //  更新时间
 }

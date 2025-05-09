@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBaseDto } from './dto/create-base.dto';
 import { UpdateBaseDto } from './dto/update-base.dto';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class BaseService {
+  constructor(private readonly prisma: PrismaService) {}
+
   create(createBaseDto: CreateBaseDto) {
-    return 'This action adds a new base';
+    return this.prisma.base.create({ data: createBaseDto });
   }
 
   findAll() {
-    return `This action returns all base`;
+    return this.prisma.base.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} base`;
+    return this.prisma.base.findUnique({ where: { id } });
   }
 
   update(id: number, updateBaseDto: UpdateBaseDto) {
-    return `This action updates a #${id} base`;
+    return this.prisma.base.update({ data: updateBaseDto, where: { id } });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} base`;
+    return this.prisma.base.delete({ where: { id } });
   }
 }
