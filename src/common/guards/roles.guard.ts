@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { ROLES_KEY } from 'src/common/decorators/roles.decorator';
-import { Role } from '@prisma/client';
+import { Role } from '@/generated/client';
 
 // 角色守卫，基于RBAC权限机制
 @Injectable()

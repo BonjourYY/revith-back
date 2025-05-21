@@ -1,11 +1,11 @@
 import {
   Injectable,
   NotFoundException,
-  Request,
   UnauthorizedException,
 } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { SignInDto } from './dto/sign-in.dto';
 
 @Injectable()
 export class AuthService {
@@ -14,21 +14,29 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(tel: string, pass: string): Promise<{ access_token: string }> {
-    const user = await this.userService.findOneByTel(tel);
+  async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
+    // 查询用户
+    const user = await this.userService.findOneByTel(signInDto.telephone);
 
+    // 用户不存在
     if (!user) {
       throw new UnauthorizedException();
     }
 
-    if (user?.password !== pass) {
+    // 密码不正确
+    if (user?.password !== signInDto.password) {
       throw new UnauthorizedException();
     }
+
+    // 生成 token
     const payload = {
       sub: user.id,
       telephone: user.telephone,
+      name: user.name,
       roles: user.roles,
     };
+
+    // 返回 token
     return { access_token: await this.jwtService.signAsync(payload) };
   }
 

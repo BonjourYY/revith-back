@@ -7,9 +7,11 @@ import { HttpInterceptorModule } from './common/interceptors/http-interceptor/ht
 import { UserModule } from './module/user/user.module';
 import DatabaseConfig from './config/database.config';
 import AppConfig from './config/app.config';
+import WechatConfig from './config/wechat.config';
+
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { providePrismaClientExceptionFilter } from 'nestjs-prisma';
+// import { providePrismaClientExceptionFilter } from 'nestjs-prisma';
 import { RolesGuard } from './common/guards/roles.guard';
 import { PrismaModule } from './module/prisma/prisma.module';
 import { AuthGuard } from './common/guards/auth.guards';
@@ -20,13 +22,14 @@ import { CronModule } from './module/cron/cron.module';
 
 @Module({
   imports: [
-    CronModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [`.env.${process.env.NODE_ENV}`],
-      load: [DatabaseConfig, AppConfig],
-      skipProcessEnv: true,
+      // envFilePath: [`.env.development`],
+      load: [DatabaseConfig, AppConfig, WechatConfig],
+      // skipProcessEnv: true,
     }),
+    CronModule,
     ScheduleModule.forRoot(),
     AuthModule,
     SignatureModule,
@@ -43,7 +46,7 @@ import { CronModule } from './module/cron/cron.module';
     { provide: APP_INTERCEPTOR, useClass: ClassSerializerInterceptor },
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
-    providePrismaClientExceptionFilter(),
+    // providePrismaClientExceptionFilter(),
   ],
 })
 export class AppModule implements NestModule {

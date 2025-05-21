@@ -16,19 +16,19 @@ export class CronService {
   // seconds (optional)
 
   // 声明一个定时任务
-  @Cron(CronExpression.EVERY_10_SECONDS, { name: 'jackfan' })
-  handleCron() {
-    this.logger.debug('debug');
-  }
+  // @Cron(CronExpression.EVERY_10_SECONDS, { name: 'jackfan' })
+  // handleCron() {
+  //   this.logger.debug('debug');
+  // }
 
-  // 声明一个定时任务
-  @Interval(20000)
-  handleCron2() {
-    this.logger.error('error');
-  }
+  // // 声明一个定时任务
+  // @Interval(20000)
+  // handleCron2() {
+  //   this.logger.error('error');
+  // }
 
-  @Timeout(30000)
-  handlerCron3() {
-    this.logger.log('log');
-  }
+  // @Timeout(30000)
+  // handlerCron3() {
+  //   this.logger.log('log');
+  // }
 }

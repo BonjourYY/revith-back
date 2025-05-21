@@ -1,4 +1,4 @@
-import { Base } from '@prisma/client';
+import { Base } from '@/generated/client';
 import { Exclude, Expose } from 'class-transformer';
 import { baseTypeIdToNameMap } from 'src/constants/baseTypes.constant';
 

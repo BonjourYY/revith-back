@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "../src/generated/client"
 }
 
 datasource db {
@@ -19,6 +19,7 @@ model User {
   telephone String   @unique
   password  String
   roles     Role[]   @default([user])
+  name      String   @default("123")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
