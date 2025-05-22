@@ -9,6 +9,10 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule, { snapshot: true });
     const configService = app.get(ConfigService);
 
+    console.log(configService);
+
+    console.log(process.env);
+
     // 全局守卫
     // app.useGlobalGuards(new AuthGuard(), new RolesGuard());
 

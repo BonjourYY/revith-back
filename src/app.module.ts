@@ -24,10 +24,10 @@ import { CronModule } from './module/cron/cron.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [`.env.${process.env.NODE_ENV}`],
-      // envFilePath: [`.env.development`],
+      cache: true,
+      envFilePath: [`.env`, `.env.${process.env.NODE_ENV}`],
       load: [DatabaseConfig, AppConfig, WechatConfig],
-      // skipProcessEnv: true,
+      skipProcessEnv: false,
     }),
     CronModule,
     ScheduleModule.forRoot(),
