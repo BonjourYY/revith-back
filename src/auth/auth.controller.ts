@@ -18,7 +18,7 @@ export class AuthController {
   }
 
   @Post('userinfo')
-  async getUserInfo(@Body('code') code: string) {
+  async getUserInfo2(@Body('code') code: string) {
     // 获取 Access_Token
     const access_token_url = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${process.env.APPID}&secret=${process.env.APPSECRET}&code=${code}&grant_type=authorization_code`;
     const access_token_response = await firstValueFrom(
@@ -68,7 +68,8 @@ export class AuthController {
     );
     const { ticket } = await jsapi_res.json();
 
-    console.log(ticket);
+    console.log({ ticket });
+
     return { ticket };
   }
 

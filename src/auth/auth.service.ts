@@ -41,6 +41,8 @@ export class AuthService {
     // 定义 OAuth URL
     const access_token_url = 'https://uctest.xiao5.cn/api/oauth2/access_token';
 
+    console.log(123);
+
     // 打印要发送的数据
     console.log({
       ...signatureObject,

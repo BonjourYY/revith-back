@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { HttpException, Injectable, OnModuleInit } from '@nestjs/common';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import { SignatureValidatorService } from 'src/utils/signature/signature.service';
 
 @Injectable()
@@ -42,7 +42,7 @@ export class HttpInterceptorService implements OnModuleInit {
         const signature =
           this.signatureValidatorService.generateSignature(signatureObject);
 
-        console.log(signature);
+        console.log({ signature });
 
         config.data = { ...signatureObject, signature };
 

@@ -33,6 +33,10 @@ const config: runtime.GetPrismaClientConfig = {
         "fromEnvVar": null,
         "value": "darwin-arm64",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -46,6 +50,7 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -54,8 +59,8 @@ const config: runtime.GetPrismaClientConfig = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// 用户角色\nenum Role {\n  user\n  admin\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  telephone String   @unique\n  password  String\n  roles     Role[]   @default([user])\n  name      String   @default(\"123\")\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Base {\n  id            Int       @id @default(autoincrement())\n  name          String    @unique // 基地名\n  contactPerson String // 联系人\n  contactPhone  String // 联系电话\n  type          Int[] // 基地类型\n  area          String // 基地地址\n  address       String // 参观形式\n  isChargeable  String // 是否收费\n  openDate      DateTime? // 开放日期\n  openDuration  Int? // 开放时长\n  description   String? // 简介\n  images        Json[] // 基地图片\n  createdAt     DateTime  @default(now()) //  创建时间\n  updatedAt     DateTime  @updatedAt //  更新时间\n}\n",
-  "inlineSchemaHash": "badeff2253edc6aeb39317b3f1a5d5f26190a033f74b89dcc1b2b565c334dd06",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client\"\n  output        = \"../src/generated/client\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// 用户角色\nenum Role {\n  user\n  admin\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  telephone String   @unique\n  password  String\n  roles     Role[]   @default([user])\n  name      String   @default(\"123\")\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Base {\n  id            Int       @id @default(autoincrement())\n  name          String    @unique // 基地名\n  contactPerson String // 联系人\n  contactPhone  String // 联系电话\n  type          Int[] // 基地类型\n  area          String // 基地地址\n  address       String // 参观形式\n  isChargeable  String // 是否收费\n  openDate      DateTime? // 开放日期\n  openDuration  Int? // 开放时长\n  description   String? // 简介\n  images        Json[] // 基地图片\n  createdAt     DateTime  @default(now()) //  创建时间\n  updatedAt     DateTime  @updatedAt //  更新时间\n}\n",
+  "inlineSchemaHash": "5bf25a537ff14a6052abe3b3fbdf353e630b99762753820413f29f1303c2f02e",
   "copyEngine": true,
   "runtimeDataModel": {
     "models": {},

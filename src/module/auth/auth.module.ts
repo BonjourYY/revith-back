@@ -5,7 +5,7 @@ import { UserModule } from '../user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { PrismaModule } from '../prisma/prisma.module';
-
+import { HttpModule } from '@nestjs/axios';
 @Module({
   imports: [
     UserModule,
@@ -15,6 +15,7 @@ import { PrismaModule } from '../prisma/prisma.module';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '3600s' },
     }),
+    HttpModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],
